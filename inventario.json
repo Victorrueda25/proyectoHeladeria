@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "nombre": "Caf\u00e9",
+        "cantidad": 10,
+        "imagen": "bdImagenes\/heladoCafe.jpeg"
+    },
+    {
+        "id": 2,
+        "nombre": "Chispas Dulces",
+        "cantidad": 15,
+        "imagen": "bdImagenes\/heladoChispasDulces.jpeg"
+    },
+    {
+        "id": 3,
+        "nombre": "Coco",
+        "cantidad": 8,
+        "imagen": "bdImagenes\/heladoCoco.jpeg"
+    },
+    {
+        "id": 4,
+        "nombre": "Galleta",
+        "cantidad": 9,
+        "imagen": "bdImagenes\/heladoGalleta.jpeg"
+    },
+    {
+        "id": 5,
+        "nombre": "Oreo",
+        "cantidad": 8,
+        "imagen": "bdImagenes\/heladoOreo.jpeg"
+    },
+    {
+        "id": 6,
+        "nombre": "Salpic\u00f3n",
+        "cantidad": 10,
+        "imagen": "bdImagenes\/heladoSalpicon.jpeg"
+    },
+    {
+        "id": 7,
+        "nombre": "Man\u00ed",
+        "cantidad": 14,
+        "imagen": "bdImagenes\/heladoMani.jpeg"
+    },
+    {
+        "id": 8,
+        "nombre": "Maracuy\u00e1",
+        "cantidad": 11,
+        "imagen": "bdImagenes\/heladoMaracuya2.jpeg"
+    },
+    {
+        "id": 9,
+        "nombre": "Mora con Leche",
+        "cantidad": 13,
+        "imagen": "bdImagenes\/heladoMoraCnlech.jpeg"
+    }
+]
