@@ -1,0 +1,15 @@
+[
+    {
+      "id": 1,
+      "nombre": "Helado de Fresa",
+      "imagen": "fresa.png",
+      "stock": 25
+    },
+    {
+      "id": 2,
+      "nombre": "Helado de Chocolate",
+      "imagen": "chocolate.png",
+      "stock": 18
+    }
+  ]
+  

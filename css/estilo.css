@@ -1,0 +1,181 @@
+/* ------------------------------------- */
+/* 🧱 Estilos Generales                  */
+/* ------------------------------------- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #444;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+button, input[type="submit"] {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    margin: 6px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* ------------------------------------- */
+/* 📋 Formularios                        */
+/* ------------------------------------- */
+form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+}
+
+input[type="text"], input[type="password"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ------------------------------------- */
+/* 🔒 Login                             */
+/* ------------------------------------- */
+.login-container {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* ------------------------------------- */
+/* 📋 Tablas de datos                   */
+/* ------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* ------------------------------------- */
+/* 📊 Botones de Reportes/Ventas       */
+/* ------------------------------------- */
+.botones {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.botones button {
+    margin: 5px;
+}
+
+/* ------------------------------------- */
+/* 📁 Contenedores de módulos          */
+/* ------------------------------------- */
+.contenedor {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.columna {
+    width: 32%;
+    padding: 10px;
+}
+
+.columna img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* ------------------------------------- */
+/* 🧃 Productos con imagen (Ventas)     */
+/* ------------------------------------- */
+.producto {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.producto img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.producto-info {
+    margin-top: 10px;
+}
+
+/* ------------------------------------- */
+/* 🧾 Detalle de pedido                 */
+/* ------------------------------------- */
+.pedido {
+    border: 2px dashed #ccc;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.pedido h3 {
+    margin-bottom: 10px;
+}
+
+.pedido-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+/* ------------------------------------- */
+/* 📲 Responsive                        */
+/* ------------------------------------- */
+@media (max-width: 768px) {
+    .contenedor {
+        flex-direction: column;
+    }
+
+    .columna {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .producto img {
+        width: 80px;
+        height: 80px;
+    }
+}
