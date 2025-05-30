@@ -1,9 +1,5 @@
 <?php
-session_start();
+require_once "controladores/plantilla.controlador.php";
 
-if (isset($_SESSION['usuario'])) {
-    header("Location: vistas/menu.vista.php");
-} else {
-    header("Location: vistas/login.vista.php");
-}
-exit();
+$plantilla = new ControladorPlantilla();
+$plantilla->ctrMostrarPlantilla();
