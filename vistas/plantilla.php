@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,43 +19,42 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
-<div class="container-fluid bg-light shadow-sm">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="nav nav-justified py-2 nav-pills w-100">
-            <?php
-            $paginas = ["registro", "ingreso", "inicio", "inventario", "salir"];
-            $paginaActual = $_GET["pagina"] ?? "registro";
+    <?php include "html/menu.html"; ?>
 
-            foreach ($paginas as $pagina) {
-                $activa = ($paginaActual == $pagina) ? "active" : "";
-                echo "<li class='nav-item'>
-                        <a class='nav-link $activa' href='index.php?pagina=$pagina'>" . ucfirst($pagina) . "</a>
-                      </li>";
-            }
+    <div class="container-fluid">
+        <div class="container py-5">
+
+            <?php 
+                // Validar si existe el parámetro "modulo" en la URL
+                if (isset($_GET["paginas"])) {
+
+                    // Listado de módulos válidos
+                    if (
+                        $_GET["paginas"] == "login" ||
+                        $_GET["paginas"] == "menu" ||
+                        $_GET["paginas"] == "ventas" ||
+                        $_GET["paginas"] == "inventario" ||
+                        $_GET["paginas"] == "reportes" ||
+                        $_GET["paginas"] == "salir"
+                    ) {
+                        include "paginas/" . $_GET["paginas"] . ".php";
+                    } else {
+                        include "paginas/error404.php";
+                    }
+
+                } else {
+                    // Cargar por defecto el módulo de ingreso
+                    include "paginas/login.php";
+                }
             ?>
-        </ul>
-    </nav>
-</div>
-
-<!-- CONTENIDO -->
-<div class="container-fluid">
-    <div class="container py-5">
-        <?php
-        $paginasValidas = ["registro", "ingreso", "inicio", "inventario", "editar", "salir"];
-        if (in_array($paginaActual, $paginasValidas)) {
-            include "paginas/$paginaActual.php";
-        } else {
-            include "paginas/error404.php";
-        }
-        ?>
-    </div>
-</div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
         crossorigin="anonymous"></script>
+        
+    </div>
+    </div>
 
 </body>
 </html>

@@ -17,11 +17,12 @@
             <p>Bienvenido, <strong>{{usuario}}</strong></p>
 
             <form method="POST" action="controladores/ventas.controlador.php" class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Producto:</label>
-                    <input type="text" name="producto" class="form-control" required>
-                </div>
-
+    <div class="col-md-6">
+        <label class="form-label">Producto:</label>
+        <select name="producto" class="form-control" required>
+            {{opciones_productos}}
+        </select>
+    </div>
                 <div class="col-md-3">
                     <label class="form-label">Cantidad:</label>
                     <input type="number" name="cantidad" class="form-control" min="1" required>
@@ -61,7 +62,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="vistas/menu.vista.php" class="btn btn-outline-primary mt-3">← Volver al menú</a>
+            <a href="/proyectoHeladeria/index.php?paginas=menu" class="btn btn-outline-primary mt-3">← Volver al menú</a>
         </div>
     </div>
 </div>

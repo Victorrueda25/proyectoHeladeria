@@ -1,31 +1,39 @@
 <?php
-require_once __DIR__ . '/../utils/autenticacion.php';
-require_once __DIR__ . '/../modelos/ventas.modelo.php';
+require_once __DIR__ . '/../../modelos/ventas.modelo.php';
+session_start();
 
-$ventas = obtenerVentas();
+$usuario = $_SESSION['usuario'] ?? 'Invitado';
+$productos = ModeloVentas::obtenerProductos();
+$ventas = ModeloVentas::obtenerVentas();
 
-// Leer el archivo HTML
-$html = file_get_contents('../html/ventas.html');
+// Cargar plantilla HTML
+$html = file_get_contents(__DIR__ . '/ventas.html');
 
-// Reemplazar marcador {{usuario}}
-$html = str_replace('{{usuario}}', htmlspecialchars($_SESSION['usuario']), $html);
+// Reemplazar {{usuario}}
+$html = str_replace('{{usuario}}', htmlspecialchars($usuario), $html);
 
-// Construir la tabla de ventas
-$filas = '';
-foreach ($ventas as $venta) {
-    $filas .= '<tr>';
-    $filas .= '<td>' . $venta['id'] . '</td>';
-    $filas .= '<td>' . htmlspecialchars($venta['producto']) . '</td>';
-    $filas .= '<td>' . $venta['cantidad'] . '</td>';
-    $filas .= '<td>$' . number_format($venta['precio_unitario'], 2) . '</td>';
-    $filas .= '<td>$' . number_format($venta['total'], 2) . '</td>';
-    $filas .= '<td>' . $venta['fecha'] . '</td>';
-    $filas .= '</tr>';
+// Reemplazar {{opciones_productos}}
+$opciones = '';
+foreach ($productos as $prod) {
+    $opciones .= '<option value="' . $prod['id'] . '">'
+               . htmlspecialchars($prod['nombre']) . ' - $' . number_format($prod['precio'], 2)
+               . '</option>';
 }
+$html = str_replace('{{opciones_productos}}', $opciones, $html);
 
-// Reemplazar marcador {{tabla_ventas}}
-$html = str_replace('{{tabla_ventas}}', $filas, $html);
+// Reemplazar {{tabla_ventas}}
+$tabla = '';
+foreach ($ventas as $venta) {
+    $tabla .= '<tr>'
+            . '<td>' . $venta['id'] . '</td>'
+            . '<td>' . htmlspecialchars($venta['producto']) . '</td>'
+            . '<td>' . $venta['cantidad'] . '</td>'
+            . '<td>$' . number_format($venta['precio_unitario'], 2) . '</td>'
+            . '<td>$' . number_format($venta['total'], 2) . '</td>'
+            . '<td>' . $venta['fecha'] . '</td>'
+            . '</tr>';
+}
+$html = str_replace('{{tabla_ventas}}', $tabla, $html);
 
-// Mostrar el HTML procesado
+// Mostrar página final
 echo $html;
-?>

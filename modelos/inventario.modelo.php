@@ -1,21 +1,16 @@
 <?php
 
-require_once __DIR__ . '/../utils/funciones_json.php';
 
-function obtenerInventario() {
-    return leerJSON(__DIR__ . '/../datos/inventario.json');
-}
+function obtenerProductos() {
+    $conexion = conectar();
+    $sql = "SELECT id, nombre, precio FROM productos";
+    $resultado = $conexion->query($sql);
+    $productos = [];
 
-function actualizarStock($id, $nuevoStock) {
-    $ruta = __DIR__ . '/../datos/inventario.json';
-    $productos = obtenerInventario();
-
-    foreach ($productos as &$producto) {
-        if ($producto['id'] == $id) {
-            $producto['stock'] = $nuevoStock;
-            break;
-        }
+    while ($fila = $resultado->fetch_assoc()) {
+        $productos[] = $fila;
     }
 
-    escribirJSON($ruta, $productos);
+    $conexion->close();
+    return $productos;
 }
