@@ -1,46 +1,44 @@
 <?php
-require_once __DIR__ . '/../config/Conexion.php'; // o el archivo que maneje la clase Conexion
 
-class ModeloVentas {
 
-    // Registrar una nueva venta
-    public static function registrarVenta($producto_id, $cantidad, $precio_unitario) {
-        $pdo = Conexion::conectar();
+class ControladorVentas {
 
-        $total = $cantidad * $precio_unitario;
-        $fecha = date('Y-m-d H:i:s');
-
-        $sql = "INSERT INTO ventas (producto_id, cantidad, precio_unitario, total, fecha) 
-                VALUES (:producto_id, :cantidad, :precio_unitario, :total, :fecha)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':producto_id', $producto_id, PDO::PARAM_INT);
-        $stmt->bindParam(':cantidad', $cantidad, PDO::PARAM_INT);
-        $stmt->bindParam(':precio_unitario', $precio_unitario);
-        $stmt->bindParam(':total', $total);
-        $stmt->bindParam(':fecha', $fecha);
-        $stmt->execute();
+    // Mostrar ventas (puede ser usado en la vista)
+    public static function ctrObtenerVentas() {
+        return ModeloVentas::obtenerVentas();
     }
 
-    // Obtener todas las ventas con el nombre del producto
-    public static function obtenerVentas() {
-        $pdo = Conexion::conectar();
-
-        $sql = "SELECT v.id, p.nombre AS producto, v.cantidad, v.precio_unitario, v.total, v.fecha
-                FROM ventas v
-                INNER JOIN productos p ON v.producto_id = p.id
-                ORDER BY v.fecha DESC";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Mostrar productos (para seleccionarlos en la venta)
+    public static function ctrObtenerProductos() {
+        return ModeloVentas::obtenerProductos();
     }
 
-    // Obtener lista de productos (por si quieres usar en ventas.php)
-    public static function obtenerProductos() {
-        $pdo = Conexion::conectar();
-        $sql = "SELECT id, nombre, precio FROM productos ORDER BY nombre";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Registrar una venta desde un formulario POST
+    public static function ctrRegistrarVenta() {
+        if (
+            isset($_POST['producto_id']) &&
+            isset($_POST['cantidad']) &&
+            isset($_POST['precio_unitario'])
+        ) {
+            $producto_id = $_POST['producto_id'];
+            $cantidad = $_POST['cantidad'];
+            $precio_unitario = $_POST['precio_unitario'];
+
+            // Validación básica (opcional, puedes extenderla)
+            if ($cantidad > 0 && $precio_unitario > 0) {
+                ModeloVentas::registrarVenta($producto_id, $cantidad, $precio_unitario);
+
+                // Redirección o mensaje de éxito
+                echo "<script>
+                    alert('Venta registrada correctamente.');
+                    window.location = 'index.php?paginas=ventas';
+                </script>";
+                exit();
+            } else {
+                echo "<script>
+                    alert('Los valores deben ser mayores a 0.');
+                </script>";
+            }
+        }
     }
 }
