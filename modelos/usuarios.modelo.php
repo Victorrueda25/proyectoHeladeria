@@ -4,9 +4,9 @@
 class ModeloRegistro {
 
 static public function mdlObtenerUsuario($tabla, $usuario) {
-    $sql = "SELECT * FROM {$tabla} WHERE pers_nombre = :usuario OR pers_correo = :usuario LIMIT 1";
+    $sql = "SELECT * FROM {$tabla} WHERE pers_nombre = :usuarios OR pers_correo = :usuarios LIMIT 1";
     $stmt = Conexion::conectar()->prepare($sql);
-    $stmt->bindParam(":usuario", $usuario, PDO::PARAM_STR);
+    $stmt->bindParam(":usuarios", $usuario, PDO::PARAM_STR);
     $stmt->execute();
     $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();

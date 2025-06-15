@@ -1,49 +1,60 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-session_start();
+<div class="container py-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">🍦 Registrar Venta</h2>
+        </div>
+        <div class="card-body">
+            <p>Bienvenido, <strong>{{usuario}}</strong></p>
 
-// Llama la función que registra la venta si viene POST
-ControladorVentas::ctrRegistrarVenta();
+            <form method="POST" action="index.php?paginas=ventas" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Producto:</label>
+                    <select name="producto_id" class="form-control" required>
+                        <option value="">Seleccione un producto</option>
+                        {{opciones_productos}}
+                    </select>
+                </div>
 
-// Obtiene el usuario desde la sesión o pone Invitado
-$usuario = $_SESSION['usuario'] ?? 'Invitado';
+                <div class="col-md-3">
+                    <label class="form-label">Cantidad:</label>
+                    <input type="number" name="cantidad" class="form-control" min="1" required>
+                </div>
 
-// Carga la plantilla HTML
-$html = file_get_contents(__DIR__ . '/html/ventas.html');
-if ($html === false) {
-    die("Error: No se pudo cargar la plantilla ventas.html");
-}
+                <div class="col-md-3">
+                    <label class="form-label">Precio Unitario:</label>
+                    <input type="number" name="precio_unitario" step="0.01" min="0.01" class="form-control" required>
+                </div>
 
-// Obtiene productos para el select
-$productos = ControladorVentas::ctrObtenerProductos();
-$opciones = '';
-foreach ($productos as $producto) {
-    $opciones .= '<option value="' . htmlspecialchars($producto['id']) . '">'
-        . htmlspecialchars($producto['nombre']) . ' ($' . number_format($producto['precio'], 2) . ')</option>';
-}
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-// Reemplaza las opciones de productos
-$html = str_replace('{{opciones_productos}}', $opciones, $html);
-
-// Reemplaza el nombre del usuario
-$html = str_replace('{{usuario}}', htmlspecialchars($usuario), $html);
-
-// Obtiene las ventas para la tabla
-$ventas = ControladorVentas::ctrObtenerVentas();
-$tabla = '';
-foreach ($ventas as $venta) {
-    $tabla .= '<tr>
-        <td>' . htmlspecialchars($venta["id"]) . '</td>
-        <td>' . htmlspecialchars($venta["producto"]) . '</td>
-        <td>' . htmlspecialchars($venta["cantidad"]) . '</td>
-        <td>$' . number_format($venta["precio_unitario"], 2) . '</td>
-        <td>$' . number_format($venta["total"], 2) . '</td>
-        <td>' . htmlspecialchars($venta["fecha"]) . '</td>
-    </tr>';
-}
-// Reemplaza la tabla en el HTML
-$html = str_replace('{{tabla_ventas}}', $tabla, $html);
-
-// Muestra la página final
-echo $html;
+    <div class="mt-4 card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">🧾 Ventas Registradas</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{tabla_ventas}}
+                    </tbody>
+                </table>
+            </div>
+            <a href="/proyectoHeladeria/index.php?paginas=menu" class="btn btn-outline-primary mt-3">← Volver al menú</a>
+        </div>
+    </div>
+</div>
