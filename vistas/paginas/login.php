@@ -1,12 +1,18 @@
 <?php
-  if (!isset($_SESSION)) session_start();
+if (!isset($_SESSION)) session_start();
+require_once "controladores/login.controlador.php";
 
-  if (isset($_SESSION["validarIngreso"]) && $_SESSION["validarIngreso"] == "ok") return;
-    require_once "controladores/login.controlador.php";
-   
-  // Capturar el mensaje de error si existe
-  $mensajeError = ControladorLogin::ctrLoginUsuario();
+// Ejecutar la validación ANTES de imprimir HTML
+$mensajeError = null;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $mensajeError = ControladorLogin::ctrLoginUsuario() ?? null;
+}
 
+// Si ya inició sesión, redirigir automáticamente
+if (isset($_SESSION["validarIngreso"]) && $_SESSION["validarIngreso"] === "ok") {
+    header("Location: index.php?paginas=home");
+    exit();
+}
 ?>
 
 <main>
@@ -58,6 +64,9 @@
                     <input type="password" name="pers_contrasena" class="form-control" id="password" required autocomplete="current-password">
                     <div class="invalid-feedback">Por favor, ingresa tu contraseña.</div>
                   </div>
+
+
+
 
                   <div class="col-12">
                     <div class="form-check">

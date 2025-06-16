@@ -1,51 +1,43 @@
 <?php
-
-session_start();
+if (!isset($_SESSION)) session_start();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Heladería - Sistema</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e632f1f723.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="vistas/css/estilo.css">
+  <meta charset="UTF-8">
+  <title>Heladería - Sistema</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="vistas/css/estilo.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="container-fluid">
-        <div class="container py-5">
+<?php if (isset($_SESSION["validarIngreso"]) && $_SESSION["validarIngreso"] === "ok"): ?>
 
-            <?php
-            if (isset($_SESSION['validarIngreso']) && $_SESSION['validarIngreso'] === 'ok') {
-                if (isset($_GET['paginas'])) {
-                    if ($_GET['paginas'] == 'home') {
-                        include "vistas/paginas/home.php";
-                    } elseif ($_GET['paginas'] == 'ventas') {
-                        include "vistas/paginas/ventas.php";
-                    }
-                    // puedes agregar más rutas aquí
-                    else {
-                        echo "Página no encontrada";
-                    }
-                } else {
-                    include "vistas/paginas/home.php"; // vista por defecto si no se pasa 'paginas'
-                }
-            } else {
-                include "vistas/paginas/login.php";
-            }
-            ?>
+  <?php
+    $paginaActiva = $_GET["paginas"] ?? "home";
+    $paginasPermitidas = ["home", "ventas", "inventario", "reportes", "usuarios", "salir"];
+    if (!in_array($paginaActiva, $paginasPermitidas)) $paginaActiva = "home";
+    $moduloActivo = $paginaActiva;
+  ?>
 
+  <?php include "paginas/header.php"; ?>
 
-        </div>
-    </div>
+  <main id="main" class="main p-4">
+    <?php include "paginas/$paginaActiva.php"; ?>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <?php include "paginas/footer.php"; ?>
+
+<?php else: ?>
+
+  <?php include "paginas/login.php"; ?>
+
+<?php endif; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
-
 </html>

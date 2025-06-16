@@ -1,8 +1,6 @@
 <?php
-require_once __DIR__ . '/../utils/autenticacion.php';
-require_once __DIR__ . '/../modelos/inventario.modelo.php';
 
-$productos = obtenerInventario();
+
 ?>
 
 <!DOCTYPE html>

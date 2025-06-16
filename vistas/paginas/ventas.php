@@ -1,3 +1,9 @@
+<?php $moduloActivo = 'ventas'; ?>
+<!-- o 'inventario' o 'reportes' según el archivo -->
+
+<!-- CONTENIDO de la página -->
+
+
 <div class="container py-5">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
@@ -54,7 +60,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="/proyectoHeladeria/index.php?paginas=menu" class="btn btn-outline-primary mt-3">← Volver al menú</a>
+            <a href="/proyectoHeladeria/index.php?paginas=home" class="btn btn-outline-primary mt-3">← Volver al menú</a>
         </div>
     </div>
 </div>
