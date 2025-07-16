@@ -48,20 +48,20 @@ if (isset($_SESSION["validarIngreso"]) && $_SESSION["validarIngreso"] === "ok") 
                 <?php endif; ?>
 
                 <!-- Formulario de inicio -->
-                <form class="row g-3 needs-validation" method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="index.php?paginas=login&action=verify" method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="email" class="form-label">Correo electrónico</label>
                     <div class="input-group has-validation">
                       <span class="input-group-text" id="inputGroupPrepend">@</span>
-                      <input type="email" name="pers_correo" class="form-control" id="email" required autocomplete="username">
+                      <input type="email" name="correo_usuario" class="form-control" id="email" required autocomplete="username">
                       <div class="invalid-feedback">Por favor, ingresa tu correo.</div>
                     </div>
                   </div>
 
                   <div class="col-12">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" name="pers_contrasena" class="form-control" id="password" required autocomplete="current-password">
+                    <input type="password" name="clave_usuario" class="form-control" id="password" required autocomplete="current-password">
                     <div class="invalid-feedback">Por favor, ingresa tu contraseña.</div>
                   </div>
 
