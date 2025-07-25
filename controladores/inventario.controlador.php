@@ -1,15 +1,37 @@
 <?php
 
-require_once __DIR__ . '/../modelos/inventario.modelo.php';
+require_once "modelos/inventario.modelo.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $stock = intval($_POST['stock']);
-    
-    if ($id > 0 && $stock >= 0) {
-        actualizarStock($id, $stock);
+class ControladorInventario
+{
+
+    // Mostrar todos los productos (inventario)
+    public static function ctrMostrarInventario()
+    {
+        return ModeloInventario::mdlMostrarInventario();
     }
 
-    header("Location: ../vistas/inventario.vista.php");
-    exit();
+
+
+    // Actualizar stock
+    public static function ctrActualizarStock()
+    {
+        if (isset($_POST["id"], $_POST["stock"])) {
+            $id = $_POST["id"];
+            $nuevoStock = $_POST["stock"];
+
+            // Validación simple
+            if (is_numeric($nuevoStock) && $nuevoStock >= 0) {
+                $respuesta = ModeloInventario::mdlActualizarStock($id, $nuevoStock);
+
+                if ($respuesta) {
+                    echo '<script>alert("Stock actualizado correctamente.");</script>';
+                } else {
+                    echo '<script>alert("Error al actualizar el stock.");</script>';
+                }
+
+                echo '<script>window.location = "index.php?ruta=inventario";</script>';
+            }
+        }
+    }
 }

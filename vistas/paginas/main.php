@@ -1,4 +1,4 @@
-<main id="main" class="main">
+<main id="main" class="main mt-5"> <!-- mt-5 = margin-top: 3rem -->
 
   <!-- Título de Página -->
   <div class="pagetitle">

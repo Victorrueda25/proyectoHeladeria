@@ -1,7 +1,61 @@
 /* ------------------------------------- */
 /* 🧱 Estilos Generales                  */
 /* ------------------------------------- */
+#header {
+  height: 80px !important;
+  padding: 2px 10px !important;
+  font-size: 13px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Logo más pequeño */
+#header .logo img {
+  height: 50px !important;
+}
+
+
+/* Texto del logo más compacto */
+#header .logo span {
+  font-size: 16px ;
+}
+
+/* Búsqueda más compacta */
+#header .search-form input {
+  height: 30px ;
+  font-size: 13px;
+}
+
+#header .search-form button {
+  height: 20px;
+  padding: 2px 8px;
+}
+
+/* Ícono de usuario más pequeño */
+#header .nav-profile img {
+  width: 26px;
+  height: 26px;
+}
+
+
+.header .navbar-text, 
+.header .usuario-nombre {
+    font-size: 14px;   /* Texto más pequeño */
+}
+
+.fixed-top {
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+
 body {
+    padding-top: 50px !important;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f9f9f9;
     margin: 0;
@@ -17,6 +71,11 @@ a {
     text-decoration: none;
     color: #007bff;
 }
+
+.main {
+   margin-top: 30px !important; /* o ajusta según el tamaño de tu header */
+}
+
 
 button, input[type="submit"] {
     background-color: #007bff;
@@ -115,7 +174,7 @@ th {
 }
 
 .columna img {
-    width: 100%;
+    width: 80%;
     border-radius: 8px;
 }
 
@@ -132,8 +191,8 @@ th {
 }
 
 .producto img {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
 }
 
@@ -160,6 +219,96 @@ th {
     padding: 6px 0;
     border-bottom: 1px dotted #ccc;
 }
+
+/* --- MÓDULO DE VENTAS - ESTILO PERSONALIZADO --- */
+
+/* Formulario de selección */
+#form-producto .form-label {
+  font-weight: 600;
+}
+
+#form-producto select,
+#form-producto input {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+#form-producto #agregarProducto {
+  margin-top: 1.9rem;
+}
+
+/* Imagen previa del producto */
+#imagenProductoSeleccionado {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+#imagenProductoSeleccionado img {
+  max-width: 120px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Tabla del pedido */
+#tablaPedido {
+  margin-top: 1rem;
+}
+
+#tablaPedido th,
+#tablaPedido td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+#tablaPedido th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+#tablaPedido tfoot th {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Botones */
+#btnRegistrarVenta {
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+}
+
+#btnRegistrarVenta:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-danger.btn-sm {
+  padding: 0.2rem 0.6rem;
+}
+
+/* Contenedor principal */
+.container .card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card-header h3,
+.card-header h4 {
+  margin-bottom: 0;
+}
+
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid #dee2e6;
+}
+
+/* Espacio general */
+.py-4 {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+
+
 
 /* ------------------------------------- */
 /* 📲 Responsive                        */

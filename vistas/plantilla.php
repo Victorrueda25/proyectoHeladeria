@@ -8,8 +8,18 @@ if (!isset($_SESSION)) session_start();
   <meta charset="UTF-8">
   <title>Heladería - Sistema</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="vistas/css/estilo.css">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="vistas/css/estilo.css">
+  
+  <link rel="stylesheet" href="vistas/css/inventario.css">
+  
+
+
 </head>
 
 <body>
@@ -25,7 +35,7 @@ if (!isset($_SESSION)) session_start();
 
   <?php include "paginas/header.php"; ?>
 
-  <main id="main" class="main p-4">
+  <main id="main" class="main p-4 mt-5"> 
     <?php include "paginas/$paginaActiva.php"; ?>
   </main>
 
@@ -36,6 +46,9 @@ if (!isset($_SESSION)) session_start();
   <?php include "paginas/login.php"; ?>
 
 <?php endif; ?>
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

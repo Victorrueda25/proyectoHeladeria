@@ -1,15 +1,19 @@
 <?php
 $moduloActivo = 'ventas';
-$productos = ModeloVentas::obtenerProductos();
+
+$productos = ControladorVentas::ctrObtenerProductos();
+
 ?>
+
 
 <div class="container py-4">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">🍧 Realizar Pedido</h3>
+            <h3 class="mb-0"> 🍧 Realizar Pedido</h3>
         </div>
         <div class="card-body">
-            <p>Bienvenido, <strong><?= $_SESSION['usuario'] ?></strong></p>
+            <p>Bienvenido Administrador,
+                <strong><?= isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado' ?></strong></p>
 
             <!-- Sección de selección de producto -->
             <div class="row g-3 align-items-end" id="form-producto">
@@ -17,15 +21,17 @@ $productos = ModeloVentas::obtenerProductos();
                     <label class="form-label">Producto</label>
                     <select id="producto_id" class="form-select" required>
                         <option value="">Seleccione un producto</option>
-                        <?php foreach ($productos as $producto): ?>
-                            <option 
-                                value="<?= $producto['id_productos'] ?>"
-                                data-precio="<?= $producto['precio_productos'] ?>"
-                                data-imagen="<?= $producto['imagen_productos'] ?>"
-                            >
-                                <?= $producto['nombre_productos'] ?>
-                            </option>
-                        <?php endforeach; ?>
+                        <?php if (!empty($productos) && is_array($productos)): ?>
+                            <?php foreach ($productos as $producto): ?>
+                                <option value="<?= htmlspecialchars($producto['id_productos']) ?>"
+                                    data-precio="<?= htmlspecialchars($producto['precio_productos']) ?>"
+                                    data-imagen="<?= htmlspecialchars($producto['imagen_productos']) ?>">
+                                    <?= htmlspecialchars($producto['nombre_productos']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <option value="">No hay productos disponibles</option>
+                        <?php endif; ?>
                     </select>
                 </div>
 
@@ -46,7 +52,7 @@ $productos = ModeloVentas::obtenerProductos();
 
             <!-- Imagen del producto seleccionado -->
             <div class="mt-3" id="imagenProductoSeleccionado" style="display:none;">
-                <img id="previewImagen" src="" width="100" alt="Imagen del producto">
+                <img id="previewImagen" src="" width="200" alt="Imagen del producto">
             </div>
 
             <!-- Tabla del pedido -->
@@ -72,6 +78,9 @@ $productos = ModeloVentas::obtenerProductos();
                     </tfoot>
                 </table>
 
+
+
+
                 <button class="btn btn-primary mt-2" id="btnRegistrarVenta">Generar Venta</button>
                 <a href="index.php?paginas=home" class="btn btn-outline-secondary mt-2 ms-2">← Volver</a>
             </div>
@@ -79,71 +88,7 @@ $productos = ModeloVentas::obtenerProductos();
     </div>
 </div>
 
-<!-- JS para funcionalidad -->
-<script>
-    const productos = <?= json_encode($productos) ?>;
-    const tablaPedido = document.querySelector("#tablaPedido tbody");
-    let pedido = [];
-
-    document.getElementById("producto_id").addEventListener("change", function () {
-        const selected = this.options[this.selectedIndex];
-        const precio = selected.dataset.precio || "";
-        const imagen = selected.dataset.imagen || "";
-        document.getElementById("precio_unitario").value = precio;
-
-        if (imagen) {
-            document.getElementById("previewImagen").src = "bdImagenes/" + imagen;
-            document.getElementById("imagenProductoSeleccionado").style.display = "block";
-        } else {
-            document.getElementById("imagenProductoSeleccionado").style.display = "none";
-        }
-    });
-
-    document.getElementById("agregarProducto").addEventListener("click", () => {
-        const select = document.getElementById("producto_id");
-        const id = select.value;
-        const nombre = select.options[select.selectedIndex].text;
-        const precio = parseFloat(document.getElementById("precio_unitario").value);
-        const cantidad = parseInt(document.getElementById("cantidad").value);
-
-        if (!id || !precio || cantidad <= 0) return alert("Datos inválidos");
-
-        // Agregar al pedido
-        pedido.push({ id, nombre, precio, cantidad });
-
-        actualizarTablaPedido();
-    });
-
-    function actualizarTablaPedido() {
-        tablaPedido.innerHTML = "";
-        let total = 0;
-
-        pedido.forEach((item, index) => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-
-            tablaPedido.innerHTML += `
-                <tr>
-                    <td>${item.nombre}</td>
-                    <td>${item.cantidad}</td>
-                    <td>$ ${item.precio.toFixed(2)}</td>
-                    <td>$ ${subtotal.toFixed(2)}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">X</button></td>
-                </tr>`;
-        });
-
-        document.getElementById("totalPedido").textContent = `$ ${total.toFixed(2)}`;
-    }
-
-    function eliminarProducto(index) {
-        pedido.splice(index, 1);
-        actualizarTablaPedido();
-    }
-
-    document.getElementById("btnRegistrarVenta").addEventListener("click", () => {
-        if (pedido.length === 0) return alert("Debe agregar al menos un producto");
-
-        // Enviar al backend con AJAX o form dinámico (esto se puede programar)
-        alert("Aquí se enviaría el pedido completo a PHP para registrar la venta");
-    });
-</script>
+                <script>
+                    const productosDesdePHP = <?= json_encode($productos) ?>;
+                </script>
+                <script src="vistas/js/ventas.js"></script>

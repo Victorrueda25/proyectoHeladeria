@@ -3,10 +3,12 @@
 require_once "modelos/conexion.php"; 
 require_once "modelos/usuarios.modelo.php";
 require_once "modelos/ventas.modelo.php";
+require_once "modelos/inventario.modelo.php";
 
 require_once "controladores/ventas.controlador.php";
 require_once "controladores/login.controlador.php";
 require_once "controladores/plantilla.controlador.php";
+require_once "controladores/inventario.controlador.php";
 
 
    // si está intentando iniciar sesión
@@ -18,8 +20,21 @@ if(
 ){
     $controllerLogin = new ControladorLogin();
     $controllerLogin->ctrLoginUsuario();
-    exit; //evita que cargue la plantilla
+    exit; //
 }
+
+// Si está actualizando el stock del inventario
+if (
+    $_SERVER["REQUEST_METHOD"] === "POST" &&
+    isset($_GET["paginas"], $_GET["action"]) &&
+    $_GET["paginas"] == "inventario" &&
+    $_GET["action"] == "actualizarStock"
+) {
+    $controllerInventario = new ControladorInventario();
+    $controllerInventario->ctrActualizarStock();
+    exit; // Evita que se cargue la plantilla o vista nuevamente    
+}
+
 
 // Si se está registrando una venta
 if (
@@ -28,10 +43,12 @@ if (
     $_GET["paginas"] === "ventas" &&
     $_GET["action"] === "registrar"
 ) {
-    require_once "controladores/ventas.controlador.php"; // Asegúrate de incluirlo si no lo tienes
-    ControladorVentas::ctrRegistrarVenta();
-    exit; // Evita cargar la plantilla
+    $controllerVentas = new ControladorVentas();
+    $controllerVentas->ctrRegistrarVenta();
+    exit; // Evita que se cargue la plantilla o vista nuevamente
 }
+
+
 
 
 

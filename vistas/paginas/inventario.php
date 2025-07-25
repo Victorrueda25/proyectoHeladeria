@@ -1,54 +1,40 @@
 <?php
-
-
+require_once "controladores/inventario.controlador.php";
+$productos = ControladorInventario::ctrMostrarInventario();
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Inventario</title>
-    <style>
-        .producto {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            display: flex;
-            align-items: center;
-        }
+<?php if (isset($productos) && is_array($productos)): ?>
 
-        .producto img {
-            width: 80px;
-            height: 80px;
-            margin-right: 10px;
-        }
+<div class="contenedor-inventario">
 
-        .producto form {
-            margin-left: auto;
-        }
-    </style>
-</head>
-<body>
+    <h2>Gestión de Inventario</h2>
 
-<h2>Gestión de Inventario</h2>
+    <div class="grid-inventario">
+        <?php foreach ($productos as $producto): ?>
+            <div class="card-producto">
+                <img src="bdImagenes/<?= htmlspecialchars($producto['imagen_productos']) ?>" alt="<?= htmlspecialchars($producto['nombre_productos']) ?>">
 
-<?php foreach ($productos as $producto): ?>
-    <div class="producto">
-        <img src="../bdImagenes/<?= htmlspecialchars($producto['imagen']) ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
-        <div>
-            <strong><?= htmlspecialchars($producto['nombre']) ?></strong><br>
-            Stock: <?= $producto['stock'] ?>
-        </div>
-        <form method="POST" action="../controladores/inventario.controlador.php">
-            <input type="hidden" name="id" value="<?= $producto['id'] ?>">
-            <input type="number" name="stock" min="0" value="<?= $producto['stock'] ?>" required>
-            <button type="submit">Actualizar</button>
-        </form>
+                <div class="info-producto">
+                    <strong><?= htmlspecialchars($producto['nombre_productos']) ?></strong><br>
+                    Precio: $<?= number_format($producto['precio_productos'], 2) ?><br>
+                    Stock actual: <?= $producto['stock_productos'] ?>
+                </div>
+
+                <form method="POST" action="index.php?paginas=inventario&action=actualizarStock">
+                    <input type="hidden" name="id_productos" value="<?= $producto['id_productos'] ?>">
+                    <input type="number" name="stock_productos" min="0" value="<?= $producto['stock_productos'] ?>" required>
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
 
-<br>
-<a href="menu.vista.php">Volver al menú</a>
+    <div class="boton-volver">
+        <a href="index.php?ruta=menu" class="btn-volver">Volver al menú</a>
+    </div>
 
-</body>
-</html>
+</div>
+
+<?php else: ?>
+    <p>No hay productos disponibles en el inventario.</p>
+<?php endif; ?>

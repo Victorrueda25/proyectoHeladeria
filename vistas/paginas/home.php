@@ -2,7 +2,7 @@
 <div class="container py-5">
 
   <div class="row mb-4">
-    <div class="col-12">
+    <div class="col-12 pt-3 ps-2">
       <h1 class="text-center text-primary">Panel Principal - Heladería</h1>
       <p class="text-center text-muted">Bienvenido al sistema de gestión de tu heladería</p>
     </div>

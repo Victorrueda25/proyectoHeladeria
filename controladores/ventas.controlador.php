@@ -1,49 +1,52 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-class ControladorVentas {
 
-    // Mostrar todas las ventas registradas
-    public static function ctrObtenerVentas() {
-        return ModeloVentas::obtenerVentas();
-    }
+class ControladorVentas{
 
-    // Mostrar productos disponibles
-    public static function ctrObtenerProductos() {
-        return ModeloVentas::obtenerProductos();
-    }
+    public static function ctrObtenerProductos()
+{
+    require_once "modelos/ventas.modelo.php";
+    return ModeloVentas::mdlObtenerProductos(); 
+
+}
+
+
 
     // Registrar una nueva venta
-    public static function ctrRegistrarVenta() {
-        if (
-            isset($_POST['producto_id']) &&
-            isset($_POST['cantidad']) &&
-            isset($_POST['precio_unitario']) &&
-            isset($_SESSION['id_usuario'])
-        ) {
-            $producto_id = $_POST['producto_id'];
-            $cantidad = $_POST['cantidad'];
-            $precio_unitario = $_POST['precio_unitario'];
-            $usuario_id = $_SESSION['id_usuario'];
+    public static function ctrRegistrarVenta()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["productos"])) {
+            $productos = json_decode($_POST["productos"], true); // ← Asegúrate de decodificar
 
-            if ($cantidad > 0 && $precio_unitario > 0) {
-                $ok = ModeloVentas::registrarVenta($producto_id, $usuario_id, $cantidad, $precio_unitario);
+            $usuarioId = $_SESSION["id_usuario"];
+            $totalVenta = 0;
 
-                if ($ok) {
-                    echo "<script>
-                        alert('Venta registrada correctamente.');
-                        window.location = 'index.php?paginas=ventas';
-                    </script>";
-                } else {
-                    echo "<script>alert('Error al registrar la venta.');</script>";
-                }
-
-                exit();
-            } else {
-                echo "<script>
-                    alert('La cantidad y el precio deben ser mayores a 0.');
-                </script>";
+            foreach ($productos as $p) {
+                $totalVenta += $p["cantidad"] * $p["precio"];
             }
+
+            $idVenta = ModeloVentas::mdlCrearVenta($usuarioId, $totalVenta);
+
+            foreach ($productos as $p) {
+                ModeloVentas::mdlRegistrarDetalleVenta($idVenta, $p);
+                
+                ModeloInventario::mdlDescontarStock($p["id"], $p["cantidad"]);
+            }
+
+            echo "<script>alert('Venta registrada correctamente'); window.location='index.php?paginas=ventas';</script>";
         }
     }
+
+
+    public static function mdlDescontarStock($productoId, $cantidad)
+    {
+        $stmt = Conexion::conectar()->prepare("UPDATE productos SET stock_productos = stock_productos - ? WHERE id_productos = ?");
+        return $stmt->execute([$cantidad, $productoId]);
+    }
+
+
 }
 
