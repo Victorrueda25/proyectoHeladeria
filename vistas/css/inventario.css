@@ -65,3 +65,56 @@
     .card-producto button:hover {
         background-color: #0056b3;
     }
+
+    /* ----------------------Estilos de implementar inventario--------------- */
+.contenedor-agregar-producto {
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    max-width: 500px;
+    background-color: #f9f9f9;
+}
+
+.contenedor-agregar-producto h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.contenedor-agregar-producto form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contenedor-agregar-producto input,
+.contenedor-agregar-producto button {
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+
+.contenedor-agregar-producto button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.contenedor-opciones-inventario {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.oculto {
+    display: none;
+}
+
+.mostrar {
+    display: block !important;
+}
+
+#formulario-nuevo.oculto {
+    display: none;
+}
+
+
