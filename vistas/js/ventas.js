@@ -1,77 +1,99 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const tablaPedido = document.querySelector("#tablaPedido tbody");
+  const totalPedido = document.querySelector("#totalPedido");
+  const formVentas = document.querySelector("#formVentas");
+  const inputProductos = document.querySelector("#inputProductos");
 
-console.log(productosDesdePHP);
-const productos = typeof productosDesdePHP !== "undefined" ? productosDesdePHP : [];
-const tablaPedido = document.querySelector("#tablaPedido tbody");
-let pedido = [];
+  const formatearMoneda = (valor) =>
+    new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+    }).format(valor);
 
-    document.getElementById("producto_id").addEventListener("change", function () {
-        const selected = this.options[this.selectedIndex];
-        const precio = selected.dataset.precio || "";
-        const imagen = selected.dataset.imagen || "";
-        document.getElementById("precio_unitario").value = precio;
-
-        if (imagen) {
-            document.getElementById("previewImagen").src = "bdImagenes/" + imagen;
-            document.getElementById("imagenProductoSeleccionado").style.display = "block";
-        } else {
-            document.getElementById("imagenProductoSeleccionado").style.display = "none";
-        }
+  function actualizarTotal() {
+    let total = 0;
+    tablaPedido.querySelectorAll("tr").forEach((fila) => {
+      total += parseFloat(fila.dataset.subtotal);
     });
+    totalPedido.textContent = formatearMoneda(total);
+  }
 
-    document.getElementById("agregarProducto").addEventListener("click", () => {
-        const select = document.getElementById("producto_id");
-        const id = select.value;
-        const nombre = select.options[select.selectedIndex].text;
-        const precio = parseFloat(document.getElementById("precio_unitario").value);
-        const cantidad = parseInt(document.getElementById("cantidad").value);
+  // ✅ Submit del formulario
+  if (formVentas) {
+    formVentas.addEventListener("submit", (e) => {
+      const productos = [];
 
-        if (!id || !precio || cantidad <= 0) return alert("Datos inválidos");
-
-        // Agregar al pedido
-        pedido.push({ id, nombre, precio, cantidad });
-
-        actualizarTablaPedido();
-    });
-
-    function actualizarTablaPedido() {
-        tablaPedido.innerHTML = "";
-        let total = 0;
-
-        pedido.forEach((item, index) => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-
-            tablaPedido.innerHTML += `
-                <tr>
-                    <td>${item.nombre}</td>
-                    <td>${item.cantidad}</td>
-                    <td>$ ${item.precio.toFixed(2)}</td>
-                    <td>$ ${subtotal.toFixed(2)}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">X</button></td>
-                </tr>`;
+      tablaPedido.querySelectorAll("tr").forEach((fila) => {
+        productos.push({
+          id: fila.dataset.id,
+          cantidad: parseInt(fila.querySelector(".colCantidad").textContent),
+          precio:
+            parseFloat(
+              fila
+                .querySelector(".colSubtotal")
+                .textContent.replace(/[^\d.-]/g, "")
+            ) / parseInt(fila.querySelector(".colCantidad").textContent),
         });
+      });
 
-        document.getElementById("totalPedido").textContent = `$ ${total.toFixed(2)}`;
-    }
+      if (productos.length === 0) {
+        e.preventDefault();
+        Swal.fire({
+          icon: "warning",
+          title: "Pedido vacío",
+          text: "Agrega productos antes de generar la venta.",
+        });
+        return;
+      }
 
-    function eliminarProducto(index) {
-        pedido.splice(index, 1);
-        actualizarTablaPedido();
-    }
-
-    document.getElementById("btnRegistrarVenta").addEventListener("click", () => {
-        if (pedido.length === 0) return alert("Debe agregar al menos un producto");
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "index.php?paginas=ventas&action=registrar";
-
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "productos";
-        input.value = JSON.stringify(pedido);
-
-        form.appendChild(input);
-        document.body.appendChild(form);
-        form.submit();
+      // Guardamos el JSON en el input hidden
+      inputProductos.value = JSON.stringify(productos);
     });
+  }
+
+  // ✅ Evento: Agregar producto desde card
+  document.querySelectorAll(".btnAgregarCard").forEach((boton) => {
+    boton.addEventListener("click", function () {
+      const card = this.closest(".producto-card");
+      const id = card.dataset.id;
+      const nombre = card.dataset.nombre;
+      const precio = parseFloat(card.dataset.precio);
+      const cantidad = parseInt(card.querySelector(".cantidadProducto").value);
+
+      if (cantidad < 1) return;
+
+      const subtotal = precio * cantidad;
+      let fila = tablaPedido.querySelector(`tr[data-id="${id}"]`);
+
+      if (fila) {
+        let celdaCantidad = fila.querySelector(".colCantidad");
+        let nuevaCantidad = parseInt(celdaCantidad.textContent) + cantidad;
+        celdaCantidad.textContent = nuevaCantidad;
+        fila.querySelector(".colSubtotal").textContent = formatearMoneda(
+          precio * nuevaCantidad
+        );
+        fila.dataset.subtotal = precio * nuevaCantidad;
+      } else {
+        fila = document.createElement("tr");
+        fila.dataset.id = id;
+        fila.dataset.subtotal = subtotal;
+        fila.innerHTML = `
+          <td>${nombre}</td>
+          <td class="colCantidad">${cantidad}</td>
+          <td>${formatearMoneda(precio)}</td>
+          <td class="colSubtotal">${formatearMoneda(subtotal)}</td>
+          <td><button class="btn btn-danger btn-sm btnEliminar">X</button></td>
+        `;
+        tablaPedido.appendChild(fila);
+
+        fila.querySelector(".btnEliminar").addEventListener("click", () => {
+          fila.remove();
+          actualizarTotal();
+        });
+      }
+
+      actualizarTotal();
+    });
+  });
+});
+// File: vistas/js/ventas.js

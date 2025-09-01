@@ -118,3 +118,73 @@
 }
 
 
+/* 🔹 Base para todas las cards de productos */
+.producto-card {
+  max-width: 200px;
+  margin: 10px auto;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+}
+
+.producto-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.producto-card .card-body {
+  padding: 10px;
+}
+
+.producto-card .card-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.producto-card .card-text {
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+/* 🔹 Variante para inventario (más grande) */
+.inventario-card {
+  max-width: 240px;
+}
+
+.inventario-card img {
+  height: 160px;
+}
+
+.inventario-card input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.inventario-card button {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inventario-card button:hover {
+  background-color: #0056b3;
+}
+
+
+

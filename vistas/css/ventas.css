@@ -15,3 +15,65 @@
         th {
             background-color: #f5f5f5;
         }
+
+        /* --- Cards de productos --- */
+.producto-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+}
+
+.producto-card img {
+  border-radius: 8px 4px 0 0;
+}
+
+.producto-card .card-body {
+  padding: 1rem;
+}
+
+.producto-card h5 {
+  font-weight: bold;
+  color: #333;
+}
+
+/* 🔹 Tarjetas de producto más pequeñas */
+.producto-card {
+    max-width: 180px;       /* controla el ancho total de la tarjeta */
+    margin: 8px auto;       /* menos margen */
+    font-size: 0.85rem;     /* texto más compacto */
+}
+
+.producto-card img {
+    height: 120px !important;   /* reduce altura de la imagen */
+    object-fit: cover;          /* mantiene proporción */
+    border-radius: 8px;
+}
+
+.producto-card .card-body {
+    padding: 8px;               /* menos espacio interno */
+}
+
+.producto-card .card-title {
+    font-size: 0.9rem;          /* nombre más pequeño */
+    margin-bottom: 4px;
+}
+
+.producto-card .card-text {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.producto-card input {
+    height: 28px;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    margin-bottom: 6px;
+}
+
+.producto-card button {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+}
+

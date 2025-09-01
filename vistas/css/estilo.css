@@ -185,22 +185,24 @@ th {
 .producto {
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 10px;
-    margin: 10px;
+    padding: 6px;
+    margin: 6px;
     text-align: center;
     background-color: #fff;
+    width: 120px;        /* controlas el ancho total */
+    font-size: 0.85rem;  /* texto más compacto */
 }
-
+/* Imagen más pequeña */
 .producto img {
-    width: 50px;
-    height: 50px;
+    width: 40px;   /* antes 50px */
+    height: 40px;  /* antes 50px */
     object-fit: cover;
 }
 
+/* Espacio de info más reducido */
 .producto-info {
-    margin-top: 10px;
+    margin-top: 6px; /* antes 10px */
 }
-
 /* ------------------------------------- */
 /* 🧾 Detalle de pedido                 */
 /* ------------------------------------- */

@@ -42,5 +42,25 @@ class ModeloVentas
         ]);
     }
 
+    // Función para descontar stock
+    static public function mdlDescontarStock($idProducto, $cantidadVendida) {
+        $stmt = Conexion::conectar()->prepare(
+            "UPDATE productos 
+             SET stock_productos = stock_productos - :cantidad 
+             WHERE id_productos = :id"
+        );
+
+        $stmt->bindParam(":cantidad", $cantidadVendida, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $idProducto, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+
+
+    }
+
 }
 
